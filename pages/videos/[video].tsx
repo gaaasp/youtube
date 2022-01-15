@@ -1,6 +1,6 @@
 import { Wrapper } from "components/common";
 import { Button, Description, Link, Text } from "components/ui";
-import { Video as RelatedVideo } from "components/video";
+import { Player, Video as RelatedVideo } from "components/video";
 import { getVideo } from "lib";
 import { useFollowing } from "lib/following";
 import { usePlaying } from "lib/playing";
@@ -14,11 +14,16 @@ import { cn, description } from "utils";
 export default function Video({ video }: { video: VideoType }) {
 	const { query } = useRouter();
 	const { following, follow, unfollow } = useFollowing();
-	const { setPlaying } = usePlaying();
+	const { playing, setPlaying, setPlaypausing } = usePlaying();
 	const followed = following?.find((id) => id === video?.channel?.id);
 
 	useEffect(() => {
-		query.video && setPlaying(query.video.toString());
+		if (query.video) {
+			if (playing !== query.video.toString()) {
+				setPlaypausing(false);
+			}
+			setPlaying(query.video.toString());
+		}
 	}, [query.video]);
 
 	return (
@@ -29,20 +34,11 @@ export default function Video({ video }: { video: VideoType }) {
 		>
 			<div className="space-y-4 sm:flex-1">
 				<div className="space-y-4 w-full">
-					<div className="w-full max-w-full bg-accent-2 relative">
-						{video && (
-							<video
-								controls
-								src={
-									video?.id &&
-									`https://invidious.sp-codes.de/latest_version?id=${video.id}&itag=22`
-								}
-								poster={video.thumbnail?.url || undefined}
-								playsInline
-								className="w-full h-full max-h-[40rem]"
-							/>
-						)}
-					</div>
+					<Player
+						video={video}
+						height="max-h-[40rem]"
+						className="w-full max-w-full"
+					/>
 					<div className="space-y-1">
 						<div>
 							<div className="flex flex-wrap">

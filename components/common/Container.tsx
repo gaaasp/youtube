@@ -1,7 +1,8 @@
 import { Tab } from "components/ui";
+import { PlayingVideo } from "components/video";
 import { AppProps } from "next/app";
 import { cn } from "utils";
-import { Header, PlayingVideo } from ".";
+import { Header } from ".";
 
 export interface ContainerProps extends AppProps {}
 
