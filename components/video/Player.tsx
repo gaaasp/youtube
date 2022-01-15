@@ -1,4 +1,4 @@
-import { Pause, Play } from "components/icons";
+import { Maximize, Minimize, Pause, Play } from "components/icons";
 import { Text } from "components/ui";
 import { usePlaying } from "lib/playing";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
@@ -15,8 +15,12 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	const { time, setTime, setPlaypausing, playpausing, playing } = usePlaying();
 	const videoRef = useRef(null);
 	const progressBarRef = useRef(null);
+	const playerRef = useRef(null);
 	const [videoTime, setVideoTime] = useState(0);
 	const [shown, setShown] = useState(false);
+
+	const fullScreen =
+		typeof window !== "undefined" && !!document.fullscreenElement;
 
 	useEffect(() => {
 		if (time && videoRef?.current) {
@@ -31,6 +35,8 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	}, [playpausing, video, videoTime]);
 
 	const Icon = playpausing ? Pause : Play;
+
+	const ScreenIcon = fullScreen ? Minimize : Maximize;
 
 	return video ? (
 		<div
@@ -47,6 +53,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				// @ts-ignore
 				e.target.nodeName === "VIDEO" && setPlaypausing(!playpausing)
 			}
+			ref={playerRef}
 		>
 			<video
 				controls={!videoRef?.current}
@@ -62,7 +69,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				}
 				poster={video.thumbnail?.url || undefined}
 				playsInline
-				className={cn("w-full h-full", height)}
+				className={cn("w-full h-full", !fullScreen && height)}
 				ref={videoRef}
 			/>
 			{time || playpausing ? (
@@ -100,6 +107,15 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 										/ {getTime(videoTime)}
 									</Text>
 								</Text>
+								<button
+									onClick={() =>
+										fullScreen
+											? document.exitFullscreen()
+											: playerRef.current.requestFullscreen()
+									}
+								>
+									<ScreenIcon size="w-4 h-4" />
+								</button>
 							</div>
 						</div>
 					</div>
