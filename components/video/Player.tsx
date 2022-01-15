@@ -30,17 +30,6 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 		}
 	}, [playpausing, video, videoTime]);
 
-	useEffect(() => {
-		if (video && videoTime) {
-			const interval = setInterval(() => {
-				typeof videoRef.current?.currentTime === "number" &&
-					setTime(videoRef.current?.currentTime, video.id);
-			}, 500);
-
-			return () => clearInterval(interval);
-		}
-	}, [video, videoTime]);
-
 	const Icon = playpausing ? Pause : Play;
 
 	return video ? (
@@ -64,6 +53,9 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				onLoadedData={(e) => {
 					setVideoTime(e.currentTarget.duration);
 				}}
+				onTimeUpdate={(e) =>
+					setTime(e.currentTarget.currentTime, video?.id || playing)
+				}
 				src={
 					video?.id &&
 					`https://invidious.sp-codes.de/latest_version?id=${video.id}&itag=22`
