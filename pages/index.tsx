@@ -2,14 +2,17 @@ import { Wrapper } from "components/common";
 import { Link, Text } from "components/ui";
 import { Video } from "components/video";
 import { GetServerSideProps } from "next";
-import useSWRInfinite from "swr/infinite";
+import useSWR from "swr";
 
 export default ({ following }) => {
-	const { data } = useSWRInfinite(
-		(index) =>
-			index < following.length ? `/api/channels/${following[index]}` : null,
-		(path) => fetch(path).then((res) => res.json()),
-		{ initialSize: following.length }
+	const { data } = useSWR(
+		() => `channels/${JSON.stringify(following)}`,
+		() =>
+			Promise.all(
+				following.map((id) =>
+					fetch(`/api/channels/${id}`).then((res) => res.json())
+				)
+			)
 	);
 
 	const videos = data
