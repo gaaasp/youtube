@@ -3,14 +3,23 @@ import { Button, Description, Link, Text } from "components/ui";
 import { Video as RelatedVideo } from "components/video";
 import { getVideo } from "lib";
 import { useFollowing } from "lib/following";
+import { usePlaying } from "lib/playing";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Video as VideoType } from "types";
 import { cn, description } from "utils";
 
 export default function Video({ video }: { video: VideoType }) {
+	const { query } = useRouter();
 	const { following, follow, unfollow } = useFollowing();
+	const { setPlaying } = usePlaying();
 	const followed = following?.find((id) => id === video?.channel?.id);
+
+	useEffect(() => {
+		query.video && setPlaying(query.video.toString());
+	}, [query.video]);
 
 	return (
 		<Wrapper

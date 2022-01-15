@@ -1,7 +1,7 @@
 import { Tab } from "components/ui";
 import { AppProps } from "next/app";
 import { cn } from "utils";
-import { Header } from ".";
+import { Header, PlayingVideo } from ".";
 
 export interface ContainerProps extends AppProps {}
 
@@ -17,6 +17,7 @@ export const Container = ({ Component, pageProps }: ContainerProps) => {
 		>
 			<Header tabs={tabs} />
 			<Component {...pageProps} />
+			<PlayingVideo />
 		</div>
 	);
 };
