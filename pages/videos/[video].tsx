@@ -30,7 +30,7 @@ export default function Video({ video }: { video: VideoType }) {
 								}
 								poster={video.thumbnail?.url || undefined}
 								playsInline
-								className="w-full h-full"
+								className="w-full h-full max-h-[40rem]"
 							/>
 						)}
 					</div>
