@@ -1,0 +1,62 @@
+@tailwind base;
+@layer base {
+	html,
+	body,
+	#__next {
+		@apply h-full;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
+
+	:root {
+		--background: #fff;
+		--foreground: #000;
+		--accent-1: #fafafa;
+		--accent-2: #eaeaea;
+		--accent-3: #999;
+		--accent-4: #888;
+		--accent-5: #666;
+		--accent-6: #444;
+		--accent-7: #333;
+		--accent-8: #111;
+		--blue: #0070f3;
+		--green: #0cce6b;
+		--red: #ef4444;
+	}
+
+	@media screen and (prefers-color-scheme: dark) {
+		:root {
+			--background: #000;
+			--foreground: #fff;
+			--accent-1: #111;
+			--accent-2: #333;
+			--accent-3: #444;
+			--accent-4: #666;
+			--accent-5: #888;
+			--accent-6: #999;
+			--accent-7: #eaeaea;
+			--accent-8: #fafafa;
+		}
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+
+	input,
+	textarea,
+	select {
+		@apply focus:outline-none;
+	}
+}
+
+@tailwind components;
+@tailwind utilities;
