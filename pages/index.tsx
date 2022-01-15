@@ -1,18 +1,8 @@
 import { Wrapper } from "components/common";
 import { Link, Text } from "components/ui";
 import { Video } from "components/video";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import useSWRInfinite from "swr/infinite";
-
-const subscriptions = [
-	"UC-lHJZR3Gqxm24_Vd_AJ5Yw",
-	"UCo3i0nUzZjjLuM7VjAVz4zA",
-	"UCL9aTJb0ur4sovxcppAopEw",
-	"UCOdKaYgvLlPuinUJ1z5Gm2g",
-	"UCo6Z9cEI8Hf3nyrLUfDITtA",
-	"UCG9P9uhnagy4IF-NEUmriaw",
-	"UCmFeOdJI3IXgTBDzqBLD8qg",
-];
 
 export default ({ following }) => {
 	const { data } = useSWRInfinite(
