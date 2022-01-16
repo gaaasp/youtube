@@ -126,54 +126,55 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				className={cn("w-full h-full", fullScreen ? "bg-black" : height)}
 				ref={videoRef}
 			/>
-			{time || playpausing ? (
-				shown &&
-				!!videoTime && (
-					<div className="absolute bottom-0 w-[calc(100%-2rem)] mx-4 mb-3">
-						<div className="w-full relative h-8 rounded-md shadow bg-black text-white bg-opacity-25">
-							<div className="w-full h-full bg-black blur bg-opacity-25"></div>
-							<div className="absolute w-full h-full top-0 left-0 flex items-center px-2 space-x-2">
-								<button onClick={() => setPlaypausing(!playpausing)}>
-									<Icon size="w-4 h-4" />
-								</button>
-								<button
-									ref={progressBarRef}
-									onClick={(e) => {
-										const rect = progressBarRef.current.getBoundingClientRect();
-										const time =
-											((e.clientX - rect.left) / rect.width) * videoTime;
-										videoRef.current.currentTime = time;
-										setTime(time, playing);
-									}}
-									className="flex-1 h-2 rounded-md bg-white bg-opacity-25 overflow-hidden"
-								>
-									<div
-										className="h-full bg-white rounded-md"
-										style={{ width: `${(time / videoTime) * 100}%` }}
-									/>
-								</button>
-								<Text small>
-									{getTime(time)}
-									<Text as="span" className="opacity-75">
-										{" "}
-										/ {getTime(videoTime)}
+			{!!videoTime &&
+				(time || playpausing ? (
+					shown && (
+						<div className="absolute bottom-0 w-[calc(100%-2rem)] mx-4 mb-3">
+							<div className="w-full relative h-8 rounded-md shadow bg-black text-white bg-opacity-25">
+								<div className="w-full h-full bg-black blur bg-opacity-25"></div>
+								<div className="absolute w-full h-full top-0 left-0 flex items-center px-2 space-x-2">
+									<button onClick={() => setPlaypausing(!playpausing)}>
+										<Icon size="w-4 h-4" />
+									</button>
+									<button
+										ref={progressBarRef}
+										onClick={(e) => {
+											const rect =
+												progressBarRef.current.getBoundingClientRect();
+											const time =
+												((e.clientX - rect.left) / rect.width) * videoTime;
+											videoRef.current.currentTime = time;
+											setTime(time, playing);
+										}}
+										className="flex-1 h-2 rounded-md bg-white bg-opacity-25 overflow-hidden"
+									>
+										<div
+											className="h-full bg-white rounded-md"
+											style={{ width: `${(time / videoTime) * 100}%` }}
+										/>
+									</button>
+									<Text small>
+										{getTime(time)}
+										<Text as="span" className="opacity-75">
+											{" "}
+											/ {getTime(videoTime)}
+										</Text>
 									</Text>
-								</Text>
-								<button onClick={() => setFullScreen(!fullScreen)}>
-									<ScreenIcon size="w-4 h-4" />
-								</button>
+									<button onClick={() => setFullScreen(!fullScreen)}>
+										<ScreenIcon size="w-4 h-4" />
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				)
-			) : (
-				<button
-					onClick={() => setPlaypausing(true)}
-					className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 rounded-full bg-black text-white bg-opacity-50"
-				>
-					<Play size="w-8 h-8" />
-				</button>
-			)}
+					)
+				) : (
+					<button
+						onClick={() => setPlaypausing(true)}
+						className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 rounded-full bg-black text-white bg-opacity-50"
+					>
+						<Play size="w-8 h-8" />
+					</button>
+				))}
 		</div>
 	) : (
 		<></>
