@@ -22,6 +22,8 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	const fullScreen =
 		typeof window !== "undefined" && !!document.fullscreenElement;
 
+	const setFullScreen = (mode: boolean) =>
+		mode ? playerRef.current.requestFullscreen() : document.exitFullscreen();
 	useEffect(() => {
 		if (time && videoRef?.current) {
 			videoRef.current.currentTime = time;
@@ -29,6 +31,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	}, [videoRef]);
 
 	useEffect(() => {
+		console.log(playpausing);
 		if (video && videoTime) {
 			videoRef?.current[playpausing ? "play" : "pause"]();
 		}
@@ -53,6 +56,32 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				// @ts-ignore
 				e.target.nodeName === "VIDEO" && setPlaypausing(!playpausing)
 			}
+			onKeyDownCapture={(e) => {
+				// @ts-ignore
+				if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
+					e.preventDefault();
+					console.log(e.key);
+					let t;
+					switch (e.key) {
+						case "f":
+							setFullScreen(!document.fullscreenElement);
+							break;
+						case " ":
+							setPlaypausing(!playpausing);
+							break;
+						case "ArrowRight":
+							t = Math.min(time + 5, videoTime);
+							videoRef.current.currentTime = t;
+							setTime(t, playing);
+							break;
+						case "ArrowLeft":
+							t = Math.max(time - 5, 0);
+							videoRef.current.currentTime = t;
+							setTime(t, playing);
+							break;
+					}
+				}
+			}}
 			ref={playerRef}
 		>
 			<video
@@ -107,13 +136,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 										/ {getTime(videoTime)}
 									</Text>
 								</Text>
-								<button
-									onClick={() =>
-										fullScreen
-											? document.exitFullscreen()
-											: playerRef.current.requestFullscreen()
-									}
-								>
+								<button onClick={() => setFullScreen(!fullScreen)}>
 									<ScreenIcon size="w-4 h-4" />
 								</button>
 							</div>
