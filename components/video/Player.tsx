@@ -20,10 +20,27 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	const [shown, setShown] = useState(false);
 
 	const fullScreen =
-		typeof window !== "undefined" && !!document.fullscreenElement;
+		typeof window !== "undefined" &&
+		!!(
+			document.fullscreenElement ||
+			// @ts-ignore
+			document.webkitFullscreenElement ||
+			// @ts-ignore
+			document.mozFullScreenElement ||
+			// @ts-ignore
+			document.msFullscreenElement
+		);
 
 	const setFullScreen = (mode: boolean) =>
-		mode ? playerRef.current.requestFullscreen() : document.exitFullscreen();
+		mode
+			? (playerRef.current.requestFullscreen &&
+					playerRef.current.requestFullscreen()) ||
+			  (playerRef.current.webkitRequestFullScreen &&
+					playerRef.current.webkitRequestFullScreen()) ||
+			  (videoRef.current.webkitEnterFullscreen &&
+					videoRef.current.webkitEnterFullscreen())
+			: document.exitFullscreen();
+
 	useEffect(() => {
 		if (time && videoRef?.current) {
 			videoRef.current.currentTime = time;
@@ -31,7 +48,6 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	}, [videoRef]);
 
 	useEffect(() => {
-		console.log(playpausing);
 		if (video && videoTime) {
 			videoRef?.current[playpausing ? "play" : "pause"]();
 		}
@@ -59,25 +75,28 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 			onKeyDownCapture={(e) => {
 				// @ts-ignore
 				if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
-					e.preventDefault();
 					console.log(e.key);
 					let t;
 					switch (e.key) {
 						case "f":
 							setFullScreen(!document.fullscreenElement);
+							e.preventDefault();
 							break;
 						case " ":
 							setPlaypausing(!playpausing);
+							e.preventDefault();
 							break;
 						case "ArrowRight":
 							t = Math.min(time + 5, videoTime);
 							videoRef.current.currentTime = t;
 							setTime(t, playing);
+							e.preventDefault();
 							break;
 						case "ArrowLeft":
 							t = Math.max(time - 5, 0);
 							videoRef.current.currentTime = t;
 							setTime(t, playing);
+							e.preventDefault();
 							break;
 					}
 				}
@@ -85,8 +104,14 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 			ref={playerRef}
 		>
 			<video
-				controls={!videoRef?.current}
+				controls={!videoTime}
 				onLoadedData={(e) => {
+					setVideoTime(e.currentTarget.duration);
+				}}
+				onLoadCapture={(e) => {
+					setVideoTime(e.currentTarget.duration);
+				}}
+				onLoad={(e) => {
 					setVideoTime(e.currentTarget.duration);
 				}}
 				onTimeUpdate={(e) =>
@@ -94,11 +119,11 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				}
 				src={
 					video?.id &&
-					`https://invidious.sp-codes.de/latest_version?id=${video.id}&itag=22`
+					`https://inv.cthd.icu/latest_version?id=${video.id}&itag=22`
 				}
 				poster={video.thumbnail?.url || undefined}
 				playsInline
-				className={cn("w-full h-full", !fullScreen && height)}
+				className={cn("w-full h-full", fullScreen ? "bg-black" : height)}
 				ref={videoRef}
 			/>
 			{time || playpausing ? (
@@ -114,11 +139,9 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 								<button
 									ref={progressBarRef}
 									onClick={(e) => {
+										const rect = progressBarRef.current.getBoundingClientRect();
 										const time =
-											// @ts-ignore
-											((e.layerX - e.currentTarget.offsetLeft) /
-												e.currentTarget.offsetWidth) *
-											videoTime;
+											((e.clientX - rect.left) / rect.width) * videoTime;
 										videoRef.current.currentTime = time;
 										setTime(time, playing);
 									}}
