@@ -5,6 +5,7 @@ import { getSearch } from "lib";
 import { useFollowing } from "lib/following";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import { loader } from "utils";
 
 export default function Search({ query, results }) {
 	const { follow, unfollow, following } = useFollowing();
@@ -27,6 +28,7 @@ export default function Search({ query, results }) {
 							{result.thumbnail?.url && (
 								<div className="relative h-24 w-24 rounded-full overflow-hidden">
 									<Image
+										loader={loader}
 										layout="fill"
 										src={
 											result.thumbnail.url?.startsWith("//")

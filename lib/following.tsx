@@ -6,7 +6,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { parseCoookie, stringifyCookie } from "utils/cookie";
+import { parseCoookie, stringifyCookie } from "utils";
 
 export const FollowingContext = createContext<{
 	following: string[];

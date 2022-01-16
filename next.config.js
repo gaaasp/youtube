@@ -14,5 +14,6 @@ module.exports = withPreact({
 			"yt3.ggpht.com",
 			"yt4.ggpht.com",
 		],
+		loader: "custom",
 	},
 });

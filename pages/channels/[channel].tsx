@@ -6,7 +6,7 @@ import { useFollowing } from "lib/following";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import { Channel as ChannelType } from "types";
-import { cn } from "utils";
+import { cn, loader } from "utils";
 
 export default function Channel({ channel }: { channel: ChannelType }) {
 	const { following, follow, unfollow } = useFollowing();
@@ -18,12 +18,14 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 			{channel?.banner.desktop && (
 				<div className="relative w-full aspect-[581/159] sm:aspect-[775/128] bg-accent-2">
 					<Image
+						loader={loader}
 						src={channel.banner.desktop.url}
 						layout="fill"
 						objectFit="cover"
 						className="!hidden sm:!inline"
 					/>
 					<Image
+						loader={loader}
 						src={channel.banner.mobile.url}
 						layout="fill"
 						objectFit="cover"
@@ -40,7 +42,11 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 								channel?.banner.desktop && "-mt-16"
 							)}
 						>
-							<Image src={channel.thumbnail.url} layout="fill" />
+							<Image
+								loader={loader}
+								src={channel.thumbnail.url}
+								layout="fill"
+							/>
 						</div>
 					)}
 					{channel && (
@@ -87,6 +93,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 									>
 										<div className="aspect-video w-full max-w-full min-w-full relative">
 											<Image
+												loader={loader}
 												src={item.thumbnail.url}
 												objectFit="cover"
 												layout="fill"
@@ -104,6 +111,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 									>
 										<div className="relative overflow-hidden rounded-full w-32 min-w-32 h-32 min-h-32">
 											<Image
+												loader={loader}
 												src={
 													item.thumbnail.url.startsWith("//")
 														? "https:" + item.thumbnail.url
@@ -149,6 +157,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 								>
 									<div className="aspect-video w-full max-w-full min-w-full relative">
 										<Image
+											loader={loader}
 											src={thumbnail.url}
 											objectFit="cover"
 											layout="fill"

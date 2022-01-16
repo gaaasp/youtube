@@ -4,7 +4,7 @@ import { usePlaying } from "lib/playing";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import { Video } from "types";
 import { cn } from "utils";
-import { getTime } from "utils/time";
+import { getTime } from "utils";
 
 export interface PlayerProps extends HTMLAttributes<HTMLElement> {
 	video: Video;

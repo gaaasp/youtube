@@ -4,7 +4,7 @@ import { Video } from "components/video";
 import { getPlaylist } from "lib";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
-import { description } from "utils";
+import { description, loader } from "utils";
 
 export default function Playlist({ playlist }) {
 	return (
@@ -29,7 +29,11 @@ export default function Playlist({ playlist }) {
 					>
 						{playlist?.channel?.thumbnail && (
 							<div className="relative w-12 h-12 overflow-hidden rounded-full">
-								<Image layout="fill" src={playlist.channel.thumbnail.url} />
+								<Image
+									loader={loader}
+									layout="fill"
+									src={playlist.channel.thumbnail.url}
+								/>
 							</div>
 						)}
 						<Text className="group-hover:underline">

@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Video as VideoType } from "types";
-import { cn, description } from "utils";
+import { cn, description, loader } from "utils";
 
 export default function Video({ video }: { video: VideoType }) {
 	const { query } = useRouter();
@@ -90,6 +90,7 @@ export default function Video({ video }: { video: VideoType }) {
 							>
 								<div className="relative h-12 w-12 min-w-12 min-h-12 rounded-full overflow-hidden">
 									<Image
+										loader={loader}
 										src={video.channel.thumbnail.url}
 										className="w-full h-full"
 										objectFit="fill"
@@ -150,6 +151,7 @@ export default function Video({ video }: { video: VideoType }) {
 										>
 											{author?.thumbnail?.url && (
 												<Image
+													loader={loader}
 													src={author.thumbnail.url}
 													height={author.thumbnail.height}
 													width={author.thumbnail.width}

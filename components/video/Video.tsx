@@ -1,7 +1,7 @@
 import { Link, Text } from "components/ui";
 import Image from "next/image";
-import { cn, description } from "utils";
-import { getTime } from "utils/time";
+import { cn, description, loader } from "utils";
+import { getTime } from "utils";
 
 export interface VideoProps {
 	id: string;
@@ -42,7 +42,12 @@ export const Video = ({
 					large && "sm:w-64 sm:min-w-64"
 				)}
 			>
-				<Image src={thumbnail.url} objectFit="cover" layout="fill" />
+				<Image
+					loader={loader}
+					src={thumbnail.url}
+					objectFit="cover"
+					layout="fill"
+				/>
 				{live ? (
 					<Text
 						small
