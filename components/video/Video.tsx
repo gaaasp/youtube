@@ -43,6 +43,7 @@ export const Video = ({
 				)}
 			>
 				<Image
+					unoptimized
 					loader={loader}
 					src={thumbnail.url}
 					objectFit="cover"

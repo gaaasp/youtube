@@ -28,6 +28,7 @@ export default function Search({ query, results }) {
 							{result.thumbnail?.url && (
 								<div className="relative h-24 w-24 rounded-full overflow-hidden">
 									<Image
+										unoptimized
 										loader={loader}
 										layout="fill"
 										src={

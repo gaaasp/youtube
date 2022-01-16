@@ -90,6 +90,7 @@ export default function Video({ video }: { video: VideoType }) {
 							>
 								<div className="relative h-12 w-12 min-w-12 min-h-12 rounded-full overflow-hidden">
 									<Image
+										unoptimized
 										loader={loader}
 										src={video.channel.thumbnail.url}
 										className="w-full h-full"
@@ -151,6 +152,7 @@ export default function Video({ video }: { video: VideoType }) {
 										>
 											{author?.thumbnail?.url && (
 												<Image
+													unoptimized
 													loader={loader}
 													src={author.thumbnail.url}
 													height={author.thumbnail.height}

@@ -30,6 +30,7 @@ export default function Playlist({ playlist }) {
 						{playlist?.channel?.thumbnail && (
 							<div className="relative w-12 h-12 overflow-hidden rounded-full">
 								<Image
+									unoptimized
 									loader={loader}
 									layout="fill"
 									src={playlist.channel.thumbnail.url}

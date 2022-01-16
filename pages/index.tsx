@@ -1,12 +1,13 @@
 import { Wrapper } from "components/common";
 import { Link, Text } from "components/ui";
 import { Video } from "components/video";
-import { GetServerSideProps } from "next";
+import { useFollowing } from "lib/following";
 import useSWR from "swr";
 
-export default ({ following }) => {
+export default () => {
+	const { following } = useFollowing();
 	const { data } = useSWR(
-		() => `channels/${JSON.stringify(following)}`,
+		() => following && `channels/${JSON.stringify(following)}`,
 		() =>
 			Promise.all(
 				following.map((id) =>
@@ -47,10 +48,4 @@ export default ({ following }) => {
 			</div>
 		</Wrapper>
 	);
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	return {
-		props: { following: JSON.parse(context.req.cookies.following || "[]") },
-	};
 };

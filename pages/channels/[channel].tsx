@@ -18,6 +18,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 			{channel?.banner.desktop && (
 				<div className="relative w-full aspect-[581/159] sm:aspect-[775/128] bg-accent-2">
 					<Image
+						unoptimized
 						loader={loader}
 						src={channel.banner.desktop.url}
 						layout="fill"
@@ -25,6 +26,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 						className="!hidden sm:!inline"
 					/>
 					<Image
+						unoptimized
 						loader={loader}
 						src={channel.banner.mobile.url}
 						layout="fill"
@@ -43,6 +45,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 							)}
 						>
 							<Image
+								unoptimized
 								loader={loader}
 								src={channel.thumbnail.url}
 								layout="fill"
@@ -93,6 +96,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 									>
 										<div className="aspect-video w-full max-w-full min-w-full relative">
 											<Image
+												unoptimized
 												loader={loader}
 												src={item.thumbnail.url}
 												objectFit="cover"
@@ -111,6 +115,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 									>
 										<div className="relative overflow-hidden rounded-full w-32 min-w-32 h-32 min-h-32">
 											<Image
+												unoptimized
 												loader={loader}
 												src={
 													item.thumbnail.url.startsWith("//")
@@ -157,6 +162,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 								>
 									<div className="aspect-video w-full max-w-full min-w-full relative">
 										<Image
+											unoptimized
 											loader={loader}
 											src={thumbnail.url}
 											objectFit="cover"
