@@ -116,7 +116,7 @@ export default function Video({ video }: { video: VideoType }) {
 					{video?.id && (
 						<Button
 							width="w-full"
-							href={`https://invidious.sp-codes.de/latest_version?id=${video.id}&itag=22`}
+							href={`https://yewtu.be/latest_version?id=${video.id}&itag=22&local=true`}
 							download={video.title}
 							secondary
 						>

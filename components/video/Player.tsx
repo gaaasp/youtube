@@ -119,7 +119,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				}
 				src={
 					video?.id &&
-					`https://inv.cthd.icu/latest_version?id=${video.id}&itag=22`
+					`https://yewtu.be/latest_version?id=${video.id}&itag=22&local=true`
 				}
 				poster={video.thumbnail?.url || undefined}
 				playsInline
