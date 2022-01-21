@@ -3,7 +3,7 @@ import { Text } from "components/ui";
 import { usePlaying } from "lib/playing";
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import { Video } from "types";
-import { cn } from "utils";
+import { cn, useKeypress } from "utils";
 import { getTime } from "utils";
 
 export interface PlayerProps extends HTMLAttributes<HTMLElement> {
@@ -18,6 +18,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 	const playerRef = useRef(null);
 	const [videoTime, setVideoTime] = useState(0);
 	const [shown, setShown] = useState(false);
+	const [times, setTimes] = useState<NodeJS.Timeout>(null);
 
 	const fullScreen =
 		typeof window !== "undefined" &&
@@ -57,6 +58,35 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 
 	const ScreenIcon = fullScreen ? Minimize : Maximize;
 
+	useKeypress(["f", " ", "ArrowRight", "ArrowLeft"], (e) => {
+		// @ts-ignore
+		if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
+			let t;
+			switch (e.key) {
+				case "f":
+					setFullScreen(!document.fullscreenElement);
+					e.preventDefault();
+					break;
+				case " ":
+					setPlaypausing(!playpausing);
+					e.preventDefault();
+					break;
+				case "ArrowRight":
+					t = Math.min(time + 5, videoTime);
+					videoRef.current.currentTime = t;
+					setTime(t, playing);
+					e.preventDefault();
+					break;
+				case "ArrowLeft":
+					t = Math.max(time - 5, 0);
+					videoRef.current.currentTime = t;
+					setTime(t, playing);
+					e.preventDefault();
+					break;
+			}
+		}
+	});
+
 	return video ? (
 		<div
 			className={cn("relative", className)}
@@ -72,34 +102,16 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				// @ts-ignore
 				e.target.nodeName === "VIDEO" && setPlaypausing(!playpausing)
 			}
-			onKeyDownCapture={(e) => {
-				// @ts-ignore
-				if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
-					console.log(e.key);
-					let t;
-					switch (e.key) {
-						case "f":
-							setFullScreen(!document.fullscreenElement);
-							e.preventDefault();
-							break;
-						case " ":
-							setPlaypausing(!playpausing);
-							e.preventDefault();
-							break;
-						case "ArrowRight":
-							t = Math.min(time + 5, videoTime);
-							videoRef.current.currentTime = t;
-							setTime(t, playing);
-							e.preventDefault();
-							break;
-						case "ArrowLeft":
-							t = Math.max(time - 5, 0);
-							videoRef.current.currentTime = t;
-							setTime(t, playing);
-							e.preventDefault();
-							break;
-					}
-				}
+			onMouseMove={() => {
+				setShown(true);
+				clearTimeout(times);
+				setTimes(null);
+
+				setTimes(
+					setTimeout(() => {
+						setShown(false);
+					}, 3000)
+				);
 			}}
 			ref={playerRef}
 		>
