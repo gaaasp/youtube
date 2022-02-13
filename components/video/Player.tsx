@@ -87,31 +87,32 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 		}
 	});
 
+	const show = () => {
+		setShown(true);
+		clearTimeout(times);
+		setTimes(null);
+
+		setTimes(
+			setTimeout(() => {
+				setShown(false);
+			}, 3000)
+		);
+	};
+
 	return video ? (
 		<div
 			className={cn("relative", className)}
-			onMouseEnter={() => setShown(true)}
+			onMouseEnter={() => show()}
 			onMouseLeave={() => setShown(false)}
 			onTouchStart={() => {
-				setShown(true);
-				setTimeout(() => {
-					setShown(false);
-				}, 1000 * 5);
+				show();
 			}}
 			onClick={(e) =>
 				// @ts-ignore
 				e.target.nodeName === "VIDEO" && setPlaypausing(!playpausing)
 			}
 			onMouseMove={() => {
-				setShown(true);
-				clearTimeout(times);
-				setTimes(null);
-
-				setTimes(
-					setTimeout(() => {
-						setShown(false);
-					}, 3000)
-				);
+				show();
 			}}
 			ref={playerRef}
 		>
@@ -137,7 +138,22 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				playsInline
 				className={cn("w-full h-full", fullScreen ? "bg-black" : height)}
 				ref={videoRef}
-			/>
+			>
+				<source
+					src={
+						video?.id &&
+						`https://yewtu.be/latest_version?id=${video.id}&itag=22&local=true`
+					}
+					type='video/mp4; codecs="avc1.64001F, mp4a.40.2"'
+				/>
+				<source
+					src={
+						video?.id &&
+						`https://yewtu.be/latest_version?id=${video.id}&itag=1&local=true`
+					}
+					type='video/mp4; codecs="avc1.42001F, mp4a.40.2"'
+				/>
+			</video>
 			{!!videoTime &&
 				(time || playpausing ? (
 					shown && (
