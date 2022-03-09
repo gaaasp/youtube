@@ -6,7 +6,7 @@ export interface LogoProps extends TextProps {
 
 export const Logo = ({ custom, ...props }: LogoProps) => (
 	<Text h2={!custom} as="span" bold {...props}>
-		You
+		Our
 		<Text className="text-red" as="span">
 			Tube
 		</Text>
