@@ -26,8 +26,6 @@ export default function Following() {
 				new Date(b.uploaded).valueOf() - new Date(a.uploaded).valueOf()
 		);
 
-	console.log(url);
-
 	useEffect(() => {
 		following &&
 			setUrl(
@@ -63,8 +61,14 @@ export default function Following() {
 								.then((text) =>
 									text
 										.split("\n")
-										.filter((a) => a)
 										.map((a) => a.trim())
+										.filter(
+											(a) =>
+												a &&
+												!following.find(
+													(id) => id === a
+												)
+										)
 								)
 								.then((arr) =>
 									setFollowing([...following, ...arr])
