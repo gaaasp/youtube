@@ -29,16 +29,17 @@ export const FollowingProvider = (props) => {
 
 	useEffect(() => {
 		if (following) {
-			document.cookie = stringifyCookie({
-				following: JSON.stringify(following),
-			});
+			localStorage.setItem("following", JSON.stringify(following));
 		} else {
-			setFollowing(JSON.parse(parseCoookie(document.cookie).following || "[]"));
+			setFollowing(JSON.parse(localStorage.getItem("following") || "[]"));
 		}
 	}, [following]);
 
 	const follow = (id: string) =>
-		setFollowing([...(following || []).filter((value) => value !== id), id]);
+		setFollowing([
+			...(following || []).filter((value) => value !== id),
+			id,
+		]);
 
 	const unfollow = (id: string) =>
 		setFollowing((following || []).filter((value) => value !== id));
