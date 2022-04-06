@@ -14,7 +14,10 @@ export const getSearch = (query: string) =>
 						result.channel && {
 							id: result.id,
 							title: result.title,
-							thumbnail: result.thumbnails[1] || result.thumbnails[0] || null,
+							thumbnail:
+								result.thumbnails[1] ||
+								result.thumbnails[0] ||
+								null,
 							uploaded: result.uploadDate || "",
 							duration: result.duration || null,
 							live: !!result.isLive,
@@ -33,7 +36,10 @@ export const getSearch = (query: string) =>
 					return {
 						name: result.name,
 						id: result.id,
-						thumbnail: result.thumbnails[1] || result.thumbnails[0] || null,
+						thumbnail:
+							result.thumbnails[1] ||
+							result.thumbnails[0] ||
+							null,
 						type: "channel",
 					};
 				}
@@ -41,7 +47,10 @@ export const getSearch = (query: string) =>
 					return {
 						id: result.id,
 						title: result.title,
-						thumbnail: result.thumbnails[1] || result.thumbnails[0] || null,
+						thumbnail:
+							result.thumbnails[1] ||
+							result.thumbnails[0] ||
+							null,
 						type: "playlist",
 					};
 				}

@@ -28,22 +28,30 @@ export const getChannel = (id: string): Promise<ChannelType> =>
 							id,
 							title,
 							thumbnail:
-								(thumbnails && thumbnails[thumbnails.length - 1]) || null,
+								(thumbnails &&
+									thumbnails[thumbnails.length - 1]) ||
+								null,
 							uploaded: uploadDate || "",
 							duration: duration || null,
 							live: !!(isLive || !duration),
 							views: viewCount || null,
 							channel: channel
-								? { id: channel?.id || null, name: channel?.name || null }
+								? {
+										id: channel?.id || null,
+										name: channel?.name || null,
+								  }
 								: null,
 						})
 					)
-					.filter(({ channel }) => channel?.id && channel?.name) || null,
+					.filter(({ channel }) => channel?.id && channel?.name) ||
+				null,
 			playlists:
 				channel.playlists?.map(({ id, title, thumbnails }) => ({
 					id,
 					title,
-					thumbnail: (thumbnails && thumbnails[thumbnails.length - 1]) || null,
+					thumbnail:
+						(thumbnails && thumbnails[thumbnails.length - 1]) ||
+						null,
 				})) || null,
 			id: channel.id,
 			name: channel.name,
@@ -54,16 +62,24 @@ export const getChannel = (id: string): Promise<ChannelType> =>
 			subscribers: channel.subscriberCount || null,
 			banner: {
 				desktop:
-					(channel.banner && channel.banner[channel.banner.length - 1]) || null,
+					(channel.banner &&
+						channel.banner[channel.banner.length - 1]) ||
+					null,
 				mobile:
 					(channel.mobileBanner &&
-						channel.mobileBanner[channel.mobileBanner.length - 1]) ||
-					(channel.banner && channel.banner[channel.banner.length - 1]) ||
+						channel.mobileBanner[
+							channel.mobileBanner.length - 1
+						]) ||
+					(channel.banner &&
+						channel.banner[channel.banner.length - 1]) ||
 					null,
 				tv:
-					(channel.tvBanner && channel.tvBanner[channel.tvBanner.length - 1]) ||
-					(channel.banner && channel.banner[channel.banner.length - 1]) ||
-					(channel.banner && channel.banner[channel.banner.length - 1]) ||
+					(channel.tvBanner &&
+						channel.tvBanner[channel.tvBanner.length - 1]) ||
+					(channel.banner &&
+						channel.banner[channel.banner.length - 1]) ||
+					(channel.banner &&
+						channel.banner[channel.banner.length - 1]) ||
 					null,
 			},
 			shelves: channel.shelves
@@ -78,7 +94,9 @@ export const getChannel = (id: string): Promise<ChannelType> =>
 								title: result.title,
 								thumbnail:
 									(result?.thumbnails &&
-										result.thumbnails[result.thumbnails.length - 1]) ||
+										result.thumbnails[
+											result.thumbnails.length - 1
+										]) ||
 									null,
 								uploaded: result.uploadDate || "",
 								duration: result.duration || null,
@@ -99,7 +117,9 @@ export const getChannel = (id: string): Promise<ChannelType> =>
 								id: result.id,
 								thumbnail:
 									(result?.thumbnails &&
-										result.thumbnails[result.thumbnails.length - 1]) ||
+										result.thumbnails[
+											result.thumbnails.length - 1
+										]) ||
 									null,
 								type: "channel",
 							};
@@ -110,7 +130,9 @@ export const getChannel = (id: string): Promise<ChannelType> =>
 								title: result.title,
 								thumbnail:
 									(result?.thumbnails &&
-										result.thumbnails[result.thumbnails.length - 1]) ||
+										result.thumbnails[
+											result.thumbnails.length - 1
+										]) ||
 									null,
 								type: "playlist",
 							};
@@ -136,14 +158,17 @@ export const getXMLChannel = (id: string) =>
 					uploaded: video.published[0],
 					updated: video.updated[0],
 					thumbnail: video["media:group"][0]["media:thumbnail"][0].$,
-					description: video["media:group"][0]["media:description"][0],
+					description:
+						video["media:group"][0]["media:description"][0],
 					views: parseInt(
-						video["media:group"][0]["media:community"][0]["media:statistics"][0]
-							.$.views
+						video["media:group"][0]["media:community"][0][
+							"media:statistics"
+						][0].$.views
 					),
 					likes: parseInt(
-						video["media:group"][0]["media:community"][0]["media:starRating"][0]
-							.$.count
+						video["media:group"][0]["media:community"][0][
+							"media:starRating"
+						][0].$.count
 					),
 					channel: {
 						name,

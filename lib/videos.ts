@@ -43,7 +43,10 @@ export const getVideo = (id: string): Promise<VideoType> =>
 						live: !!isLive,
 						views: viewCount || null,
 						channel: channel
-							? { id: channel?.id || null, name: channel?.name || null }
+							? {
+									id: channel?.id || null,
+									name: channel?.name || null,
+							  }
 							: null,
 					})
 				)

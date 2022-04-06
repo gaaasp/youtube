@@ -12,7 +12,8 @@ export interface PlayerProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const Player = ({ video, height, className }: PlayerProps) => {
-	const { time, setTime, setPlaypausing, playpausing, playing } = usePlaying();
+	const { time, setTime, setPlaypausing, playpausing, playing } =
+		usePlaying();
 	const videoRef = useRef(null);
 	const progressBarRef = useRef(null);
 	const playerRef = useRef(null);
@@ -117,6 +118,7 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 			ref={playerRef}
 		>
 			<video
+				autoPlay
 				controls={!videoTime}
 				onLoadedData={(e) => {
 					setVideoTime(e.currentTarget.duration);
@@ -136,7 +138,10 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 				}
 				poster={video.thumbnail?.url || undefined}
 				playsInline
-				className={cn("w-full h-full", fullScreen ? "bg-black" : height)}
+				className={cn(
+					"w-full h-full",
+					fullScreen ? "bg-black" : height
+				)}
 				ref={videoRef}
 			>
 				<source
@@ -161,7 +166,11 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 							<div className="w-full relative h-8 rounded-md shadow bg-black text-white bg-opacity-25">
 								<div className="w-full h-full bg-black blur bg-opacity-25"></div>
 								<div className="absolute w-full h-full top-0 left-0 flex items-center px-2 space-x-2">
-									<button onClick={() => setPlaypausing(!playpausing)}>
+									<button
+										onClick={() =>
+											setPlaypausing(!playpausing)
+										}
+									>
 										<Icon size="w-4 h-4" />
 									</button>
 									<button
@@ -170,7 +179,9 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 											const rect =
 												progressBarRef.current.getBoundingClientRect();
 											const time =
-												((e.clientX - rect.left) / rect.width) * videoTime;
+												((e.clientX - rect.left) /
+													rect.width) *
+												videoTime;
 											videoRef.current.currentTime = time;
 											setTime(time, playing);
 										}}
@@ -178,7 +189,11 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 									>
 										<div
 											className="h-full bg-white rounded-md"
-											style={{ width: `${(time / videoTime) * 100}%` }}
+											style={{
+												width: `${
+													(time / videoTime) * 100
+												}%`,
+											}}
 										/>
 									</button>
 									<Text small>
@@ -188,7 +203,11 @@ export const Player = ({ video, height, className }: PlayerProps) => {
 											/ {getTime(videoTime)}
 										</Text>
 									</Text>
-									<button onClick={() => setFullScreen(!fullScreen)}>
+									<button
+										onClick={() =>
+											setFullScreen(!fullScreen)
+										}
+									>
 										<ScreenIcon size="w-4 h-4" />
 									</button>
 								</div>

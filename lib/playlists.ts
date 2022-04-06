@@ -4,8 +4,15 @@ export const getPlaylist = (id: string) =>
 	new Client().getPlaylist(id).then(async (playlist: any) => {
 		await playlist.next(0);
 
-		const { videos, id, title, videoCount, viewCount, lastUpdatedAt, channel } =
-			playlist;
+		const {
+			videos,
+			id,
+			title,
+			videoCount,
+			viewCount,
+			lastUpdatedAt,
+			channel,
+		} = playlist;
 		return {
 			id,
 			title,
@@ -38,7 +45,8 @@ export const getPlaylist = (id: string) =>
 									thumbnail:
 										((c || channel).thumbnails &&
 											(c || channel).thumbnails[
-												(c || channel).thumbnails.length - 1
+												(c || channel).thumbnails
+													.length - 1
 											]) ||
 										null,
 							  }
@@ -51,7 +59,9 @@ export const getPlaylist = (id: string) =>
 					name: channel.name,
 					thumbnail:
 						(channel.thumbnails &&
-							channel.thumbnails[channel.thumbnails.length - 1]) ||
+							channel.thumbnails[
+								channel.thumbnails.length - 1
+							]) ||
 						null,
 				}) ||
 				null,

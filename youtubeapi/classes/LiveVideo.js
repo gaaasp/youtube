@@ -29,7 +29,9 @@ var __awaiter =
 					? resolve(result.value)
 					: adopt(result.value).then(fulfilled, rejected);
 			}
-			step((generator = generator.apply(thisArg, _arguments || [])).next());
+			step(
+				(generator = generator.apply(thisArg, _arguments || [])).next()
+			);
 		});
 	};
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -61,9 +63,9 @@ class LiveVideo extends _1.BaseVideo {
 				.map((r) => r.text)
 				.join(" ")
 				.replace(/[^0-9]/g, "");
-		this.chatContinuation = (data[3].response.contents.twoColumnWatchNextResults
-			.conversationBar.liveChatRenderer?.continuations ||
-			[])[0]?.reloadContinuationData.continuation;
+		this.chatContinuation = (data.response.contents
+			.twoColumnWatchNextResults.conversationBar.liveChatRenderer
+			?.continuations || [])[0]?.reloadContinuationData.continuation;
 		return this;
 	}
 	/**
@@ -94,7 +96,8 @@ class LiveVideo extends _1.BaseVideo {
 			);
 			this.parseChat(response.data);
 			const timedContinuation = (response.data.continuationContents
-				.liveChatContinuation?.continuations || [])[0].timedContinuationData;
+				.liveChatContinuation?.continuations || [])[0]
+				.timedContinuationData;
 			this._timeoutMs = timedContinuation.timeoutMs;
 			this.chatContinuation = timedContinuation.continuation;
 			this._chatRequestPoolingTimeout = setTimeout(
@@ -106,14 +109,16 @@ class LiveVideo extends _1.BaseVideo {
 	/** Parse chat data from Youtube and add to chatQueue */
 	parseChat(data) {
 		const chats =
-			data.continuationContents.liveChatContinuation.actions.flatMap((a) => {
-				var _a;
-				return (
-					((_a = a.addChatItemAction) === null || _a === void 0
-						? void 0
-						: _a.item.liveChatTextMessageRenderer) || []
-				);
-			});
+			data.continuationContents.liveChatContinuation.actions.flatMap(
+				(a) => {
+					var _a;
+					return (
+						((_a = a.addChatItemAction) === null || _a === void 0
+							? void 0
+							: _a.item.liveChatTextMessageRenderer) || []
+					);
+				}
+			);
 		for (const rawChatData of chats) {
 			const chat = new _1.Chat({ client: this.client }).load(rawChatData);
 			if (this._chatQueue.find((c) => c.id === chat.id)) continue;

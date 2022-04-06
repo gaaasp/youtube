@@ -42,7 +42,7 @@ export const PlayingProvider = (props) => {
 		playing && `/api/videos/${playing}`,
 		(path) => fetch(path).then((res) => res.json())
 	);
-	const [playpausing, setPlaypausing] = useState(false);
+	const [playpausing, setPlaypausing] = useState(true);
 
 	const setTime = (time: number, playing: string) => {
 		playing && typeof time === "number" && setT({ ...t, [playing]: time });
