@@ -63,7 +63,7 @@ class LiveVideo extends _1.BaseVideo {
 				.map((r) => r.text)
 				.join(" ")
 				.replace(/[^0-9]/g, "");
-		this.chatContinuation = (data.response.contents
+		this.chatContinuation = (data[3].response.contents
 			.twoColumnWatchNextResults.conversationBar.liveChatRenderer
 			?.continuations || [])[0]?.reloadContinuationData.continuation;
 		return this;

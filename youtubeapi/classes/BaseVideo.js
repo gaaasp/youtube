@@ -96,7 +96,7 @@ class BaseVideo extends _1.Base {
 		// Up Next and related videos
 		this.related = [];
 		const secondaryContents =
-			data.response.contents.twoColumnWatchNextResults.secondaryResults
+			data[3].response.contents.twoColumnWatchNextResults.secondaryResults
 				.secondaryResults.results;
 		if (secondaryContents) {
 			const upNext =
@@ -148,7 +148,7 @@ class BaseVideo extends _1.Base {
 	/** @hidden */
 	static parseRawData(data) {
 		const contents =
-			data.response.contents.twoColumnWatchNextResults.results.results
+			data[3].response.contents.twoColumnWatchNextResults.results.results
 				.contents;
 		const primaryInfo = contents.find(
 			(c) => "videoPrimaryInfoRenderer" in c
@@ -156,7 +156,7 @@ class BaseVideo extends _1.Base {
 		const secondaryInfo = contents.find(
 			(c) => "videoSecondaryInfoRenderer" in c
 		).videoSecondaryInfoRenderer;
-		const videoDetails = data.playerResponse.videoDetails;
+		const videoDetails = data[2].playerResponse.videoDetails;
 		return Object.assign(
 			Object.assign(Object.assign({}, secondaryInfo), primaryInfo),
 			{ videoDetails }

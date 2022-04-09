@@ -132,16 +132,14 @@ class Client {
 	getVideo(videoIdOrUrl) {
 		return __awaiter(this, void 0, void 0, function* () {
 			const videoId = common_1.getQueryParameter(videoIdOrUrl, "v");
-			console.log(videoId);
 			const response = yield this.http.get(
 				`${constants_1.WATCH_END_POINT}`,
 				{
 					params: { v: videoId, pbj: "1" },
 				}
 			);
-			console.log(Object.keys(response.data));
-			if (!response?.data?.response?.contents) return undefined;
-			return !response?.data?.playerResponse.playabilityStatus
+			if (!response?.data[3]?.response?.contents) return undefined;
+			return !response?.data[2]?.playerResponse.playabilityStatus
 				.liveStreamability
 				? new _1.Video({ client: this }).load(response?.data)
 				: new _1.LiveVideo({ client: this }).load(response?.data);

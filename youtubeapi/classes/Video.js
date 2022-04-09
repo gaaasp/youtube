@@ -63,7 +63,7 @@ class Video extends _1.BaseVideo {
 		const videoInfo = _1.BaseVideo.parseRawData(data);
 		this.duration = +videoInfo.videoDetails.lengthSeconds;
 		const itemSectionRenderer =
-			data.response.contents.twoColumnWatchNextResults.results.results.contents.find(
+			data[3].response.contents.twoColumnWatchNextResults.results.results.contents.find(
 				(c) => c.itemSectionRenderer
 			).itemSectionRenderer;
 		this.commentContinuation = common_1.getContinuationFromItems(

@@ -40,7 +40,7 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 					{channel?.thumbnail && (
 						<div
 							className={cn(
-								"relative w-32 h-32 rounded-full overflow-hidden border-8 border-accent-1",
+								"relative w-32 h-32 rounded-full overflow-hidden border-8 border-background",
 								channel?.banner.desktop && "-mt-16"
 							)}
 						>
@@ -57,7 +57,9 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 							<div>
 								<Text h1>{channel?.name}</Text>
 								{!!channel?.subscribers && (
-									<Text className="text-accent-5">{channel.subscribers}</Text>
+									<Text className="text-accent-5">
+										{channel.subscribers}
+									</Text>
 								)}
 							</div>
 							<Button
@@ -65,7 +67,9 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 								large
 								color="red"
 								secondary={!!followed}
-								onClick={() => (followed ? unfollow : follow)(channel.id)}
+								onClick={() =>
+									(followed ? unfollow : follow)(channel.id)
+								}
 							>
 								{followed ? "Se désabonner" : "S'abonner"}
 							</Button>
@@ -78,7 +82,11 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 							<Text h3 as="h2">
 								{title}
 							</Text>
-							{subtitle && <Text className="text-accent-5">{subtitle}</Text>}
+							{subtitle && (
+								<Text className="text-accent-5">
+									{subtitle}
+								</Text>
+							)}
 						</div>
 						<div className="flex space-x-4 snap-x snap-mandatory w-full overflow-auto">
 							{items.map((item) =>
@@ -118,8 +126,11 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 												unoptimized
 												loader={loader}
 												src={
-													item.thumbnail.url.startsWith("//")
-														? "https:" + item.thumbnail.url
+													item.thumbnail.url.startsWith(
+														"//"
+													)
+														? "https:" +
+														  item.thumbnail.url
 														: item.thumbnail.url
 												}
 												objectFit="cover"
@@ -144,7 +155,10 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 						</Text>
 						<div className="flex space-x-4 snap-x snap-mandatory w-full overflow-auto">
 							{channel.videos.map((video) => (
-								<Video className="w-64 min-w-64 snap-left" {...video} />
+								<Video
+									className="w-64 min-w-64 snap-left"
+									{...video}
+								/>
 							))}
 						</div>
 					</div>
@@ -155,25 +169,27 @@ export default function Channel({ channel }: { channel: ChannelType }) {
 							Playlists
 						</Text>
 						<div className="flex space-x-4 snap-x snap-mandatory w-full overflow-auto">
-							{channel.playlists.map(({ title, id, thumbnail }) => (
-								<Link
-									className="space-y-2 group w-64 min-w-64 snap-left"
-									href={`/playlists/${id}`}
-								>
-									<div className="aspect-video w-full max-w-full min-w-full relative">
-										<Image
-											unoptimized
-											loader={loader}
-											src={thumbnail.url}
-											objectFit="cover"
-											layout="fill"
-										/>
-									</div>
-									<Text className="break-words group-hover:underline">
-										{title}
-									</Text>
-								</Link>
-							))}
+							{channel.playlists.map(
+								({ title, id, thumbnail }) => (
+									<Link
+										className="space-y-2 group w-64 min-w-64 snap-left"
+										href={`/playlists/${id}`}
+									>
+										<div className="aspect-video w-full max-w-full min-w-full relative">
+											<Image
+												unoptimized
+												loader={loader}
+												src={thumbnail.url}
+												objectFit="cover"
+												layout="fill"
+											/>
+										</div>
+										<Text className="break-words group-hover:underline">
+											{title}
+										</Text>
+									</Link>
+								)
+							)}
 						</div>
 					</div>
 				)}
