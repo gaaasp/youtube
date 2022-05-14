@@ -11,12 +11,16 @@ export default function Following() {
 	const { following, setFollowing } = useFollowing();
 	const { data } = useSWR(
 		() => following && `channels/${JSON.stringify(following)}`,
-		() =>
-			Promise.all(
-				following.map((id) =>
-					fetch(`/api/channels/${id}`).then((res) => res.json())
+		async () =>
+			(
+				await Promise.all(
+					following.map((id) =>
+						fetch(`/api/channels/${id}`)
+							.then((res) => res.json())
+							.catch(() => null)
+					)
 				)
-			)
+			).filter((a) => a)
 	);
 
 	const videos = data

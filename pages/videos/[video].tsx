@@ -42,27 +42,29 @@ export default function Video({ video }: { video: VideoType }) {
 					<div className="space-y-1">
 						<div>
 							<div className="flex flex-wrap">
-								{video?.tags.map((tag, i) => (
-									<Link
-										key={tag}
-										href={
-											tag.endsWith(" DES TENDANCES")
-												? "/trends"
-												: tag.endsWith(" DES TENDANCES DES JEUX VIDÉO")
-												? "/trends/gaming"
-												: tag.endsWith(" DES TENDANCES MUSIQUE")
-												? "/trends/music"
-												: `/tags/${tag}`
-										}
-										className={cn(i !== video.tags.length - 1 && "mr-2")}
+								<a
+									className="mr-2"
+									href={`https://youtube.com/watch?v=${video?.id}`}
+								>
+									<Text
+										small
+										className="text-red hover:underline active:underline"
 									>
-										<Text
-											small
-											className="text-blue hover:underline active:underline"
-										>
-											#{tag}
-										</Text>
-									</Link>
+										YouTube
+									</Text>
+								</a>
+								{video?.tags.map((tag, i) => (
+									<Text
+										key={tag}
+										small
+										className={cn(
+											"text-blue",
+											i !== video.tags.length - 1 &&
+												"mr-2"
+										)}
+									>
+										#{tag}
+									</Text>
 								))}
 							</div>
 							<Text h2 as="h1">
@@ -73,12 +75,21 @@ export default function Video({ video }: { video: VideoType }) {
 							{description([
 								video?.views &&
 									(video.watching
-										? `${video.watching.toLocaleString("fr-FR")} ${
-												video.live ? "regardent" : "attendent"
+										? `${video.watching.toLocaleString(
+												"fr-FR"
+										  )} ${
+												video.live
+													? "regardent"
+													: "attendent"
 										  }`
-										: `${video.views.toLocaleString("fr-FR")} vues`),
+										: `${video.views.toLocaleString(
+												"fr-FR"
+										  )} vues`),
 								video?.uploaded,
-								video?.likes && `${video.likes.toLocaleString("fr-FR")} aiment`,
+								video?.likes &&
+									`${video.likes.toLocaleString(
+										"fr-FR"
+									)} aiment`,
 							])}
 						</Text>
 					</div>
@@ -107,7 +118,11 @@ export default function Video({ video }: { video: VideoType }) {
 								large
 								color="red"
 								secondary={!!followed}
-								onClick={() => (followed ? unfollow : follow)(video.channel.id)}
+								onClick={() =>
+									(followed ? unfollow : follow)(
+										video.channel.id
+									)
+								}
 							>
 								{followed ? "Se désabonner" : "S'abonner"}
 							</Button>
@@ -144,7 +159,14 @@ export default function Video({ video }: { video: VideoType }) {
 						</Text>
 						<div className="space-y-4">
 							{video.comments.map(
-								({ content, author, id, published, pinned, replies }) => (
+								({
+									content,
+									author,
+									id,
+									published,
+									pinned,
+									replies,
+								}) => (
 									<div key={id} className="flex space-x-4">
 										<Link
 											href={`/channels/${author?.id}`}
@@ -155,8 +177,12 @@ export default function Video({ video }: { video: VideoType }) {
 													unoptimized
 													loader={loader}
 													src={author.thumbnail.url}
-													height={author.thumbnail.height}
-													width={author.thumbnail.width}
+													height={
+														author.thumbnail.height
+													}
+													width={
+														author.thumbnail.width
+													}
 												/>
 											)}
 										</Link>
@@ -167,7 +193,9 @@ export default function Video({ video }: { video: VideoType }) {
 												author?.name,
 												published,
 												replies &&
-													`${replies.toLocaleString("fr-FR")} réponses`,
+													`${replies.toLocaleString(
+														"fr-FR"
+													)} réponses`,
 											])}
 										>
 											{content}
